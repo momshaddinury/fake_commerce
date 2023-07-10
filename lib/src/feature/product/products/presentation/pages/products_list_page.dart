@@ -1,16 +1,15 @@
 import 'dart:developer';
-
 import 'package:fake_commerce/src/core/router/routers.dart';
 import 'package:fake_commerce/src/core/state/base_state.dart';
 import 'package:fake_commerce/src/feature/category/presentation/provider/category_list_provider.dart';
 import 'package:fake_commerce/src/feature/category/presentation/widgets/category_loading_shimmer.dart';
+import 'package:fake_commerce/src/feature/product/products/domain/entities/product_entity.dart';
 import 'package:fake_commerce/src/feature/product/products/presentation/riverpod/providers.dart';
 import 'package:fake_commerce/src/feature/product/products/presentation/widget/products_loading_shimmer.dart';
-import 'package:fake_commerce/src/feature/product/root/data/models/product_model.dart';
+import 'package:fake_commerce/src/feature/product/products/presentation/widget/range_number_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
 part '../widget/category_builder.dart';
 part '../widget/product_card.dart';
 part '../widget/product_list_builder.dart';
@@ -35,13 +34,23 @@ class _ProductListPageState extends ConsumerState<ProductListPage> {
   Widget build(BuildContext context) {
     final state = ref.watch(productsProvider);
     final categoriesState = ref.watch(categoriesProvider);
-
+    ref.watch(sortingMethodProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Products'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              sortedProducts();
+            },
+            icon: const Icon(Icons.sort),
+          )
+        ],
       ),
       body: Column(
         children: [
+          const RangeNumberBuilder(),
+
           /// Categories
           categoriesState.when(
             data: (categories) {
@@ -61,7 +70,7 @@ class _ProductListPageState extends ConsumerState<ProductListPage> {
           /// Product List
           state is LoadingState
               ? const Expanded(child: ProductsLoadingShimmer())
-              : state is SuccessState<List<ProductModel>>
+              : state is SuccessState<List<ProductEntity>>
                   ? Expanded(
                       child: RefreshIndicator(
                         onRefresh: () async {
@@ -77,5 +86,11 @@ class _ProductListPageState extends ConsumerState<ProductListPage> {
         ],
       ),
     );
+  }
+
+  void sortedProducts() async {
+    ref.read(sortingMethodProvider.notifier).state =
+        !ref.read(sortingMethodProvider.notifier).state;
+    ref.read(productsProvider.notifier).productList();
   }
 }

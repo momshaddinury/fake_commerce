@@ -5,7 +5,7 @@ class _ProductListBuilder extends StatelessWidget {
     required this.products,
   });
 
-  final List<ProductModel> products;
+  final List<ProductEntity> products;
 
   @override
   Widget build(BuildContext context) {

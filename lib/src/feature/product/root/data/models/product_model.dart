@@ -1,20 +1,13 @@
-class ProductModel {
-  int id;
-  String title;
-  double price;
-  String description;
-  String category;
-  String image;
-  Rating rating;
+import 'package:fake_commerce/src/feature/product/products/domain/entities/product_entity.dart';
 
+class ProductModel extends ProductEntity {
   ProductModel({
-    required this.id,
-    required this.title,
-    required this.price,
-    required this.description,
-    required this.category,
-    required this.image,
-    required this.rating,
+    required super.id,
+    required super.title,
+    required super.price,
+    required super.description,
+    required super.category,
+    required super.image,
   });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
@@ -24,7 +17,6 @@ class ProductModel {
         description: json["description"],
         category: json["category"],
         image: json["image"],
-        rating: Rating.fromJson(json["rating"]),
       );
 }
 

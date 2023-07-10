@@ -1,11 +1,12 @@
 import 'dart:developer';
 
 import 'package:fake_commerce/src/feature/product/details/domain/use_cases/product_details_use_case.dart';
+import 'package:fake_commerce/src/feature/product/products/domain/entities/product_entity.dart';
 import 'package:fake_commerce/src/feature/product/root/data/models/product_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final productDetailsProvider =
-    FutureProvider.autoDispose.family<ProductModel?, int>(
+    FutureProvider.autoDispose.family<ProductEntity?, int>(
   (ref, value) async {
     try {
       final result =

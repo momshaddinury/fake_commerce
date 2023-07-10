@@ -13,7 +13,10 @@ final productDataSourceProvider = Provider(
 );
 
 abstract class ProductDataSource {
-  Future<Response> fetchProductList();
+  Future<Response> fetchProductList(
+    String? sortingMethod,
+    String? limit,
+  );
 
   Future<Response> fetchProduct(int id);
 }

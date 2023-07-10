@@ -5,7 +5,7 @@ class _ProductDetailsBuilder extends ConsumerWidget {
     required this.product,
   });
 
-  final ProductModel product;
+  final ProductEntity product;
 
   @override
   Widget build(BuildContext context, ref) {

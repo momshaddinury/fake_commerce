@@ -1,9 +1,9 @@
 import 'dart:developer';
-
 import 'package:fake_commerce/src/core/state/base_state.dart';
 import 'package:fake_commerce/src/feature/category/presentation/provider/category_list_provider.dart';
+import 'package:fake_commerce/src/feature/product/products/domain/entities/product_entity.dart';
 import 'package:fake_commerce/src/feature/product/products/domain/use_cases/products_use_case.dart';
-import 'package:fake_commerce/src/feature/product/root/data/models/product_model.dart';
+import 'package:fake_commerce/src/feature/product/products/presentation/riverpod/providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ProductsNotifier extends StateNotifier<BaseState> {
@@ -19,15 +19,17 @@ class ProductsNotifier extends StateNotifier<BaseState> {
   final Ref ref;
   final ProductsUseCase useCase;
 
-  List<ProductModel> _products = [];
+  List<ProductEntity> _products = [];
 
-  Future<void> productList({bool hasFilter = false}) async {
+  Future<void> productList({
+    bool hasFilter = false,
+  }) async {
     if (hasFilter) {
       if (state is SuccessState) {
         String category = ref.read(selectedCategoryProvider);
 
         if (category.isNotEmpty) {
-          List<ProductModel> filteredProducts = _products
+          List<ProductEntity> filteredProducts = _products
               .where((element) => element.category == category.toLowerCase())
               .toList();
 
@@ -44,8 +46,15 @@ class ProductsNotifier extends StateNotifier<BaseState> {
     }
 
     state = const LoadingState();
+
     try {
-      final result = await useCase.productList();
+      final result = await useCase.productList(
+        ref.watch(sortingMethodProvider.notifier).state
+            ? SortedMethod.desc.name
+            : SortedMethod.asc.name,
+        // sortingMethod ?? SortedMethod.asc.name,
+        ref.watch(selectedRangeProvider.notifier).state,
+      );
       result.fold(
         (l) {
           log(
