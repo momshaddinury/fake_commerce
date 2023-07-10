@@ -23,8 +23,6 @@ class ProductsNotifier extends StateNotifier<BaseState> {
 
   Future<void> productList({
     bool hasFilter = false,
-    String? sortingMethod,
-    String? limit,
   }) async {
     if (hasFilter) {
       if (state is SuccessState) {
@@ -51,8 +49,11 @@ class ProductsNotifier extends StateNotifier<BaseState> {
 
     try {
       final result = await useCase.productList(
-        sortingMethod ?? SortedMethod.asc.name,
-        limit,
+        ref.watch(sortingMethodProvider.notifier).state
+            ? SortedMethod.desc.name
+            : SortedMethod.asc.name,
+        // sortingMethod ?? SortedMethod.asc.name,
+        ref.watch(selectedRangeProvider.notifier).state,
       );
       result.fold(
         (l) {

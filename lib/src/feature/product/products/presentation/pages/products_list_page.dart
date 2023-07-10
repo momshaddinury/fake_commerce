@@ -26,9 +26,7 @@ class _ProductListPageState extends ConsumerState<ProductListPage> {
   void initState() {
     super.initState();
     Future.microtask(() {
-      ref
-          .read(productsProvider.notifier)
-          .productList(sortingMethod: SortedMethod.asc.name);
+      ref.read(productsProvider.notifier).productList();
     });
   }
 
@@ -77,16 +75,9 @@ class _ProductListPageState extends ConsumerState<ProductListPage> {
                       child: RefreshIndicator(
                         onRefresh: () async {
                           ref.invalidate(selectedCategoryProvider);
-                          await ref.read(productsProvider.notifier).productList(
-                                sortingMethod: ref
-                                        .watch(sortingMethodProvider.notifier)
-                                        .state
-                                    ? SortedMethod.desc.name
-                                    : SortedMethod.asc.name,
-                                limit: ref
-                                    .watch(selectedRangeProvider.notifier)
-                                    .state,
-                              );
+                          await ref
+                              .read(productsProvider.notifier)
+                              .productList();
                         },
                         child: _ProductListBuilder(products: state.data!),
                       ),
@@ -100,11 +91,6 @@ class _ProductListPageState extends ConsumerState<ProductListPage> {
   void sortedProducts() async {
     ref.read(sortingMethodProvider.notifier).state =
         !ref.read(sortingMethodProvider.notifier).state;
-    ref.read(productsProvider.notifier).productList(
-          sortingMethod: ref.watch(sortingMethodProvider.notifier).state
-              ? SortedMethod.desc.name
-              : SortedMethod.asc.name,
-          limit: ref.watch(selectedRangeProvider.notifier).state,
-        );
+    ref.read(productsProvider.notifier).productList();
   }
 }

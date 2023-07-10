@@ -80,11 +80,6 @@ class _SortingBuilderState extends ConsumerState<RangeNumberBuilder> {
           ref.read(selectedRangeProvider.notifier).state = null;
       }
     });
-    ref.read(productsProvider.notifier).productList(
-          sortingMethod: ref.watch(sortingMethodProvider.notifier).state
-              ? SortedMethod.desc.name
-              : SortedMethod.asc.name,
-          limit: ref.watch(selectedRangeProvider.notifier).state,
-        );
+    ref.read(productsProvider.notifier).productList();
   }
 }
