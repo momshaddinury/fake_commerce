@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:fake_commerce/src/core/router/routers.dart';
 import 'package:fake_commerce/src/core/state/base_state.dart';
 import 'package:fake_commerce/src/feature/category/presentation/provider/category_list_provider.dart';
@@ -10,7 +9,6 @@ import 'package:fake_commerce/src/feature/product/products/presentation/widget/p
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
 part '../widget/category_builder.dart';
 part '../widget/product_card.dart';
 part '../widget/product_list_builder.dart';
