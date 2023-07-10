@@ -6,6 +6,7 @@ import 'package:fake_commerce/src/feature/category/presentation/widgets/category
 import 'package:fake_commerce/src/feature/product/products/domain/entities/product_entity.dart';
 import 'package:fake_commerce/src/feature/product/products/presentation/riverpod/providers.dart';
 import 'package:fake_commerce/src/feature/product/products/presentation/widget/products_loading_shimmer.dart';
+import 'package:fake_commerce/src/feature/product/products/presentation/widget/range_number_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -21,9 +22,6 @@ class ProductListPage extends ConsumerStatefulWidget {
 }
 
 class _ProductListPageState extends ConsumerState<ProductListPage> {
-  int? _groupValue;
-  String? _radioValue; //Initial definition of radio button value
-  String? choice;
   @override
   void initState() {
     super.initState();
@@ -53,50 +51,7 @@ class _ProductListPageState extends ConsumerState<ProductListPage> {
       ),
       body: Column(
         children: [
-          Column(
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: RadioListTile(
-                      title: const Text('All'),
-                      value: '',
-                      groupValue: _radioValue,
-                      onChanged: radioButtonChanges,
-                    ),
-                  ),
-                  Expanded(
-                    child: RadioListTile(
-                      title: const Text('1-5'),
-                      value: '1-5',
-                      groupValue: _radioValue,
-                      onChanged: radioButtonChanges,
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: RadioListTile(
-                      title: const Text('1-10'),
-                      value: '1-10',
-                      groupValue: _radioValue,
-                      onChanged: radioButtonChanges,
-                    ),
-                  ),
-                  Expanded(
-                    child: RadioListTile(
-                      title: const Text('1-15'),
-                      value: '1-15',
-                      groupValue: _radioValue,
-                      onChanged: radioButtonChanges,
-                    ),
-                  ),
-                ],
-              )
-            ],
-          ),
+          const RangeNumberBuilder(),
 
           /// Categories
           categoriesState.when(
@@ -135,43 +90,14 @@ class _ProductListPageState extends ConsumerState<ProductListPage> {
     );
   }
 
-  void radioButtonChanges(String? value) {
-    setState(() {
-      _radioValue = value;
-      switch (value) {
-        case 'All':
-          choice = null;
-          break;
-        case '1-5':
-          choice = '5';
-          break;
-        case '1-10':
-          choice = '10';
-          break;
-        case '1-15':
-          choice = '15';
-          break;
-        default:
-          choice = null;
-      }
-
-      debugPrint(choice); //Debug the choice in console
-    });
-    ref.read(productsProvider.notifier).productList(
-        sortingMethod: ref.read(sortingMethodProvider.notifier).state
-            ? SortedMethod.desc.name
-            : SortedMethod.asc.name,
-        limit: choice);
-  }
-
   void sortedProducts() async {
     ref.read(sortingMethodProvider.notifier).state =
         !ref.read(sortingMethodProvider.notifier).state;
     ref.read(productsProvider.notifier).productList(
-          sortingMethod: ref.read(sortingMethodProvider.notifier).state
+          sortingMethod: ref.watch(sortingMethodProvider.notifier).state
               ? SortedMethod.desc.name
               : SortedMethod.asc.name,
-          limit: choice,
+          limit: ref.watch(selectedRangeProvider.notifier).state,
         );
   }
 }

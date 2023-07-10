@@ -10,6 +10,7 @@ enum SortedMethod {
 }
 
 final sortingMethodProvider = StateProvider<bool>((ref) => false);
+final selectedRangeProvider = StateProvider<String?>((ref) => null);
 final productsProvider = StateNotifierProvider<ProductsNotifier, BaseState>(
   (ref) {
     return ProductsNotifier(
