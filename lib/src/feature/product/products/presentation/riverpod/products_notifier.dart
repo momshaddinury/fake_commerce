@@ -1,11 +1,9 @@
 import 'dart:developer';
-
 import 'package:fake_commerce/src/core/state/base_state.dart';
 import 'package:fake_commerce/src/feature/category/presentation/provider/category_list_provider.dart';
 import 'package:fake_commerce/src/feature/product/products/domain/entities/product_entity.dart';
 import 'package:fake_commerce/src/feature/product/products/domain/use_cases/products_use_case.dart';
 import 'package:fake_commerce/src/feature/product/products/presentation/riverpod/providers.dart';
-import 'package:fake_commerce/src/feature/product/root/data/models/product_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ProductsNotifier extends StateNotifier<BaseState> {
