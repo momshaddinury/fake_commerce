@@ -5,10 +5,8 @@ import 'package:fake_commerce/src/core/state/base_state.dart';
 import 'package:fake_commerce/src/feature/category/presentation/provider/category_list_provider.dart';
 import 'package:fake_commerce/src/feature/category/presentation/widgets/category_loading_shimmer.dart';
 import 'package:fake_commerce/src/feature/product/products/domain/entities/product_entity.dart';
-import 'package:fake_commerce/src/feature/product/products/presentation/riverpod/products_sorting_notifier.dart';
 import 'package:fake_commerce/src/feature/product/products/presentation/riverpod/providers.dart';
 import 'package:fake_commerce/src/feature/product/products/presentation/widget/products_loading_shimmer.dart';
-import 'package:fake_commerce/src/feature/product/root/data/models/product_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -42,7 +40,7 @@ class _ProductListPageState extends ConsumerState<ProductListPage> {
   Widget build(BuildContext context) {
     final state = ref.watch(productsProvider);
     final categoriesState = ref.watch(categoriesProvider);
-    ref.watch(questionAnalysisTypeProvider);
+    ref.watch(sortingMethodProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Products'),
@@ -162,17 +160,17 @@ class _ProductListPageState extends ConsumerState<ProductListPage> {
       debugPrint(choice); //Debug the choice in console
     });
     ref.read(productsProvider.notifier).productList(
-        sortingMethod: ref.read(questionAnalysisTypeProvider.notifier).state
+        sortingMethod: ref.read(sortingMethodProvider.notifier).state
             ? SortedMethod.desc.name
             : SortedMethod.asc.name,
         limit: choice);
   }
 
   void sortedProducts() async {
-    ref.read(questionAnalysisTypeProvider.notifier).state =
-        !ref.read(questionAnalysisTypeProvider.notifier).state;
+    ref.read(sortingMethodProvider.notifier).state =
+        !ref.read(sortingMethodProvider.notifier).state;
     ref.read(productsProvider.notifier).productList(
-          sortingMethod: ref.read(questionAnalysisTypeProvider.notifier).state
+          sortingMethod: ref.read(sortingMethodProvider.notifier).state
               ? SortedMethod.desc.name
               : SortedMethod.asc.name,
           limit: choice,
