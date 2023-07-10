@@ -48,33 +48,32 @@ class ProductsNotifier extends StateNotifier<BaseState> {
     }
 
     state = const LoadingState();
-    if (state == const LoadingState()) {
-      try {
-        final result = await useCase.productList(
-          sortingMethod ?? SortedMethod.asc.name,
-          limit,
-        );
-        result.fold(
-          (l) {
-            log(
-              'ProductsNotifier.productList',
-              error: l,
-            );
-            return state = ErrorState(data: l.toString());
-          },
-          (r) {
-            _products = r;
-            return state = SuccessState(data: r);
-          },
-        );
-      } catch (e, stacktrace) {
-        log(
-          'ProductsNotifier.productList',
-          error: e,
-          stackTrace: stacktrace,
-        );
-        state = ErrorState(data: e.toString());
-      }
+
+    try {
+      final result = await useCase.productList(
+        sortingMethod ?? SortedMethod.asc.name,
+        limit,
+      );
+      result.fold(
+        (l) {
+          log(
+            'ProductsNotifier.productList',
+            error: l,
+          );
+          return state = ErrorState(data: l.toString());
+        },
+        (r) {
+          _products = r;
+          return state = SuccessState(data: r);
+        },
+      );
+    } catch (e, stacktrace) {
+      log(
+        'ProductsNotifier.productList',
+        error: e,
+        stackTrace: stacktrace,
+      );
+      state = ErrorState(data: e.toString());
     }
   }
 }
