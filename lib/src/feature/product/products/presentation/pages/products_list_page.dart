@@ -77,9 +77,16 @@ class _ProductListPageState extends ConsumerState<ProductListPage> {
                       child: RefreshIndicator(
                         onRefresh: () async {
                           ref.invalidate(selectedCategoryProvider);
-                          await ref
-                              .read(productsProvider.notifier)
-                              .productList();
+                          await ref.read(productsProvider.notifier).productList(
+                                sortingMethod: ref
+                                        .watch(sortingMethodProvider.notifier)
+                                        .state
+                                    ? SortedMethod.desc.name
+                                    : SortedMethod.asc.name,
+                                limit: ref
+                                    .watch(selectedRangeProvider.notifier)
+                                    .state,
+                              );
                         },
                         child: _ProductListBuilder(products: state.data!),
                       ),
