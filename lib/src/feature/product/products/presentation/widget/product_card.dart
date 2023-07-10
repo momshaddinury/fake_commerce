@@ -5,7 +5,7 @@ class _ProductCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    ProductModel data = ref.read(productDataProvider);
+    ProductEntity data = ref.read(productDataProvider);
 
     return ListTile(
       onTap: () {
