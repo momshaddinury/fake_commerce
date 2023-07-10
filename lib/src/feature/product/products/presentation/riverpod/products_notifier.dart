@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:fake_commerce/src/core/state/base_state.dart';
 import 'package:fake_commerce/src/feature/category/presentation/provider/category_list_provider.dart';
 import 'package:fake_commerce/src/feature/product/products/domain/use_cases/products_use_case.dart';
+import 'package:fake_commerce/src/feature/product/products/presentation/riverpod/providers.dart';
 import 'package:fake_commerce/src/feature/product/root/data/models/product_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -21,7 +22,11 @@ class ProductsNotifier extends StateNotifier<BaseState> {
 
   List<ProductModel> _products = [];
 
-  Future<void> productList({bool hasFilter = false}) async {
+  Future<void> productList({
+    bool hasFilter = false,
+    String? sortingMethod,
+    String? limit,
+  }) async {
     if (hasFilter) {
       if (state is SuccessState) {
         String category = ref.read(selectedCategoryProvider);
@@ -45,7 +50,10 @@ class ProductsNotifier extends StateNotifier<BaseState> {
 
     state = const LoadingState();
     try {
-      final result = await useCase.productList();
+      final result = await useCase.productList(
+        sortingMethod ?? SortedMethod.asc.name,
+        limit,
+      );
       result.fold(
         (l) {
           log(

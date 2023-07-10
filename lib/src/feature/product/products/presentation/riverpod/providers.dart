@@ -5,6 +5,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'products_notifier.dart';
 
+enum SortedMethod {
+  asc,
+  desc,
+}
+
+
 final productsProvider = StateNotifierProvider<ProductsNotifier, BaseState>(
   (ref) {
     return ProductsNotifier(

@@ -13,6 +13,7 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
       title: 'Fake Commerce',
       routerConfig: ref.read(goRouterProvider),
       theme: ThemeData(

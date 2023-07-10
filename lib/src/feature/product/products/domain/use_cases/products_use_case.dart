@@ -16,7 +16,13 @@ class ProductsUseCase {
 
   final ProductRepository _repository;
 
-  Future<Either<Exception, List<ProductModel>>> productList() async {
-    return await _repository.productList();
+  Future<Either<Exception, List<ProductModel>>> productList(
+    String? sortingMethod,
+    String? limit,
+  ) async {
+    return await _repository.productList(
+      sortingMethod,
+      limit,
+    );
   }
 }

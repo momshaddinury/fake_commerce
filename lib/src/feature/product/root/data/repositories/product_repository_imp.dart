@@ -13,9 +13,15 @@ class ProductRepositoryImpl implements ProductRepository {
   final ProductDataSource dataSource;
 
   @override
-  Future<Either<Exception, List<ProductModel>>> productList() async {
+  Future<Either<Exception, List<ProductModel>>> productList(
+    String? sortingMethod,
+    String? limit,
+  ) async {
     try {
-      final response = await dataSource.fetchProductList();
+      final response = await dataSource.fetchProductList(
+        sortingMethod,
+        limit,
+      );
       List<ProductModel> products = (response.data as List).map((e) {
         return ProductModel.fromJson(e);
       }).toList();

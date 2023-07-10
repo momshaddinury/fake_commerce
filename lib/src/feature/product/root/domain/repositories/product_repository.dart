@@ -13,7 +13,10 @@ final productRepositoryProvider = Provider(
 );
 
 abstract class ProductRepository {
-  Future<Either<Exception, List<ProductModel>>> productList();
+  Future<Either<Exception, List<ProductModel>>> productList(
+    String? sortingMethod,
+    String? limit,
+  );
 
   Future<Either<Exception, ProductModel>> product(int id);
 }
