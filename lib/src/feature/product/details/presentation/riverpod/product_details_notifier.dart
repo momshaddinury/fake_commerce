@@ -10,6 +10,7 @@ final productDetailsProvider =
     try {
       final result =
           await ref.read(productDetailsUseCaseProvider).product(value);
+
       return result.fold(
         (l) => null,
         (r) {

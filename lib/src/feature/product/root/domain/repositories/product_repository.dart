@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:fake_commerce/src/core/network/error_model.dart';
 import 'package:fake_commerce/src/feature/product/root/data/data_sources/product_data_source.dart';
 import 'package:fake_commerce/src/feature/product/root/data/models/product_model.dart';
 import 'package:fake_commerce/src/feature/product/root/data/repositories/product_repository_imp.dart';
@@ -13,7 +14,7 @@ final productRepositoryProvider = Provider(
 );
 
 abstract class ProductRepository {
-  Future<Either<Exception, List<ProductModel>>> productList();
+  Future<Either<ErrorModel, List<ProductModel>>> productList();
 
-  Future<Either<Exception, ProductModel>> product(int id);
+  Future<Either<ErrorModel, ProductModel>> product(int id);
 }

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:network/network.dart';
 
 import 'product_data_source.dart';
 
@@ -7,19 +8,21 @@ class ProductDataSourceImpl implements ProductDataSource {
     required this.client,
   });
 
-  final Dio client;
+  final RestClient client;
 
   @override
   Future<Response> fetchProductList() async {
     return await client.get(
-      'https://fakestoreapi.com/products',
+      APIType.public,
+      'products',
     );
   }
 
   @override
   Future<Response> fetchProduct(int id) async {
     return await client.get(
-      'https://fakestoreapi.com/products/$id',
+      APIType.public,
+      'products/$id',
     );
   }
 }

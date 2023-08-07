@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:network/network.dart';
 
 import 'category_data_source.dart';
 
@@ -7,12 +8,13 @@ class CategoryDataSourceImpl implements CategoryDataSource {
     required this.client,
   });
 
-  final Dio client;
+  final RestClient client;
 
   @override
   Future<Response> categories() async {
     final response = await client.get(
-      'https://fakestoreapi.com/products/categories',
+      APIType.public,
+      'products/categories',
     );
     return response;
   }

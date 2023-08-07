@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:fake_commerce/src/core/network/rest_client.dart';
+import 'package:fake_commerce/src/core/network/network.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'product_data_source_imp.dart';

@@ -1,4 +1,5 @@
 import 'package:fake_commerce/src/core/router/routers.dart';
+import 'package:fake_commerce/src/feature/authentication/login/presentation/view/login_page.dart';
 import 'package:fake_commerce/src/feature/product/details/presentation/pages/product_details_page.dart';
 import 'package:fake_commerce/src/feature/product/products/presentation/pages/products_list_page.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +29,15 @@ final GoRouter _router = GoRouter(
               child: ProductDetailsPage(
                 productId: int.parse(state.queryParameters['id']!),
               ),
+            );
+          },
+        ),
+        GoRoute(
+          path: Routes.login.name,
+          name: Routes.login.name,
+          pageBuilder: (context, state) {
+            return const MaterialPage(
+              child: LoginPage(),
             );
           },
         ),

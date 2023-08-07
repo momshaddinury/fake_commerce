@@ -39,6 +39,16 @@ class _ProductListPageState extends ConsumerState<ProductListPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Products'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              context.pushNamed(Routes.login.name);
+            },
+            icon: const Icon(
+              Icons.login,
+            ),
+          )
+        ],
       ),
       body: Column(
         children: [

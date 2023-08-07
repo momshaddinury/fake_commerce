@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:fake_commerce/src/core/network/error_model.dart';
 import 'package:fake_commerce/src/feature/category/domain/repositories/category_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -13,7 +14,7 @@ class CategoryUseCase {
 
   final CategoryRepository _categoryRepository;
 
-  Future<Either<Exception, List<String>>> categories() async {
+  Future<Either<ErrorModel, List<String>>> categories() async {
     return await _categoryRepository.categories();
   }
 }
